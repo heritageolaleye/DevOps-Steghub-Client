@@ -82,4 +82,75 @@ sudo mysql_secure_installation
 ```
 ![project8](/images/client8.jpg)
 
+2. Now, let us go inside our MySQL server:
 
+```bash
+sudo mysql
+```
+
+3. We will now create a special member card (user account) for our client and a cool database as well:
+
+```bash
+CREATE USER 'client'@'%' IDENTIFIED WITH mysql_native_password BY 'NewU$er.3';
+CREATE DATABASE test_db;
+GRANT ALL ON test_db.* TO 'client'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+```
+![project9](/images/client9.jpg)
+
+4. Let us tell our server to listen for visitors and attend to them:
+
+```bash
+sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf
+```
+Change bind-address = 127.0.0.1 to bind-address = 0.0.0.0
+
+![project10](/images/client10.jpg)
+
+## Step 6: Visiting Our Server from the Client
+
+Now, from our MySQL Client, let us try to access our MySQL Server:
+
+```bash 
+sudo mysql -u client -h 172.31.42.47 -p
+```
+![project11](/images/client11.jpg)
+
+##Step 7: Accessed from the client:
+
+Let us now make sure we can actually do stuff in our server from our client:
+
+1. First, let us see what cool rooms (databases) we have:
+
+```bash
+SHOW DATABASES;
+```
+2. Now let add some data:
+
+```bash
+CREATE TABLE test_db.test_table (
+  item_id INT AUTO_INCREMENT,
+  content VARCHAR(255),
+  student_name VARCHAR(255),
+  student_age INT,
+  student_class VARCHAR(255),
+  student_grade VARCHAR(255),
+  PRIMARY KEY(item_id)
+);
+```
+Insert items into this new table by running this command:
+
+```bash
+INSERT INTO test_db.schoolRegister (content, student_name, student_age, student_class, student_grade) 
+VALUES ("GOD Has Helped me greatly", "Emmanuel Okose", "777", "Life-long Learning", "EXCELLENT"); 
+```
+Now, to confirm that our command worked successfullly, we will now show the content of the table that we just created and inserted items into, run this command.
+
+```bash
+SELECT * FROM test_db.test_table;
+```
+![project12](/images/client12.jpg)
+
+## Conclusion
+
+We just built a fully functional MySQL Client-Server setup. this project has helped you to understand how to setup a server database (mysql in our cas) and setup a client to access and perform operations on the server db. 
